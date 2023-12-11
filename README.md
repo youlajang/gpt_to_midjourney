@@ -1,5 +1,6 @@
 # Midjourney_api
 비공식 Midjourney API
+# sample url : https://myjourneystory-yula0910.streamlit.app/
 
 이것은 맞춤형 Midjourney API입니다. 이를 사용하면 코드로 이미지를 생성할 수 있습니다. Discord API 작업 중입니다.
 
