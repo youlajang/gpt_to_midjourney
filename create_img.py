@@ -22,7 +22,7 @@ class Sender_Reciver :
         
         self.params = params
         self.local_path = local_path
-        self.prompt = prompt + ' --ar 16:9 --niji 5 -Upscaled (4x)'
+        self.prompt = prompt + ' --ar 1:1 --niji 5 -Upscaled (4x)'
         self.run_name = run_name
         self.file_list = []
 
@@ -60,28 +60,35 @@ class Sender_Reciver :
                 bbox = (h * grid_h, w * grid_w, (h + 1) * grid_h, (w + 1) * grid_w)         
                 crop_img = img.crop(bbox)       
                 fname = f"/{self.run_name}_{i}.png"        
-                save_name = '/Users/yula0/data_analytics/langchain/fairytale_book/Midjourney_api-main/story-book-runs/'+ self.run_name+ '/' +fname         
+                save_name = './story-book-runs/'+ self.run_name+ '/' +fname         
                 if j ==2 : 
                     crop_img.save(save_name)         
                     print(f"Saved file: {save_name}")
+
+   
+    
 
     def Overlaid_image(self,img, overlay_text):
         # 이미지에 텍스트 오버레이
         draw = ImageDraw.Draw(img)
         
-        font_size = 100
-        font = ImageFont.truetype("arial.ttf", font_size)
-        
+        font_size = 50
+        font_path = "NanumGothic-Regular.ttf"
+        font = ImageFont.truetype(font_path, font_size)        
+        overlay_text = overlay_text.replace('.', '\n')
+        overlay_text = overlay_text.replace(':', '\n')
         
         text_color = "white"  # 텍스트 색상 설정
-        text_position = (30, img.height - 900)  # 텍스트 위치 설정
+        stroke_fill = "black"
+        text_position = (20, img.height - 900)  # 텍스트 위치 설정
+        overlay_text
         
-        draw.text(text_position, overlay_text, fill=text_color, font=font)
+        draw.text(text_position, overlay_text, fill=text_color, font=font, stroke_width=3, stroke_fill=stroke_fill)
         
         return img
     
     def Create_cover_image(self,story_title):
-        local_path = '/Users/yula0/data_analytics/langchain/fairytale_book/Midjourney_api-main/story-book-runs'
+        local_path = './story-book-runs'
         
 
         image_path = os.path.join(local_path, f"{self.run_name}",f"{self.run_name}_0.png")
@@ -90,7 +97,7 @@ class Sender_Reciver :
         # 오버레이된 이미지 생성
         SR = Sender_Reciver(self.params, self.local_path, self.prompt,self.run_name)
         new_img = SR.Overlaid_image(img, story_title)
-        new_img.save(os.path.join(self.local_path, self.run_name,f"{self.run_name}_cover.png"))
+        new_img.save(os.path.join(local_path, self.run_name,f"{self.run_name}_cover.png"))
         return new_img, local_path    
         
 
